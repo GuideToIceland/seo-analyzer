@@ -6,7 +6,7 @@
       "declaration": true,
       "emitDeclarationOnly": true,
       "allowJs": true,
-      "lib": [      
+      "lib": [
         "es2017"
       ]
   }

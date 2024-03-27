@@ -1079,4 +1079,4 @@
   return SeoAnalyzer;
 
 }));
-//# sourceMappingURL=seo-analyzer.min.js.map
+//# sourceMappingURL=seo-analyzer.cjs.map

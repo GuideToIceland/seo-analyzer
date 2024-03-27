@@ -17,7 +17,14 @@ declare class SeoAnalyzer {
     _output: Output;
     _nextServer: import("./modules/next-server").default;
     _inputData: any[];
-    _defaultRules: typeof defaultRules;
+    _defaultRules: {
+        titleLengthRule: typeof import("./rules/TitleLengthRule").default;
+        imgTagWithAltAttributeRule: typeof import("./rules/ImgTagWithAltAttributeRule").default;
+        aTagWithRelAttributeRule: typeof import("./rules/ATagWithRelAttributeRule").default;
+        canonicalLinkRule: typeof import("./rules/CanonicalLinkRule").default;
+        metaBaseRule: typeof import("./rules/MetaBaseRule").default;
+        metaSocialRule: typeof import("./rules/MetaSocialRule").default;
+    };
     _rules: any[];
     _ignoreFolders: any[];
     _ignoreFiles: any[];
@@ -112,4 +119,3 @@ declare class SeoAnalyzer {
 import Logger from './modules/logger';
 import Input from './modules/input';
 import Output from './modules/output';
-import defaultRules from './rules/index';

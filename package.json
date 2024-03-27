@@ -3,9 +3,10 @@
   "version": "3.0.0",
   "description": "A library for analyze a HTML files to show all of the SEO defects",
   "main": "dist/seo-analyzer.js",
-  "module": "dist/seo-analyzer.mjs",
+  "commonjs": "dist/seo-analyzer.cjs",
   "browser": "dist/seo-analyzer.min.js",
   "types": "dist/seo-analyzer.d.ts",
+  "type": "module",
   "repository": "https://github.com/maddevsio/seo-analyzer",
   "homepage": "https://github.com/maddevsio/seo-analyzer",
   "bugs": "https://github.com/maddevsio/seo-analyzer/issues",
@@ -58,7 +59,7 @@
     "nyc": "^15.1.0",
     "prettier": "^2.4.1",
     "rimraf": "^3.0.0",
-    "rollup": "^3.29.4",
+    "rollup": "^4.13.1",
     "rollup-plugin-dts": "^6.1.0",
     "typescript": "^5.3.3"
   },
@@ -73,6 +74,7 @@
     "express": "^4.17.1",
     "i": "^0.3.7",
     "jsdom": "^16.5.3",
+    "rollup-plugin-typescript2": "^0.36.0",
     "sinon": "^11.1.2",
     "sitemap-stream-parser": "^1.7.0"
   },

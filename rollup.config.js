@@ -1,5 +1,7 @@
 import terser from '@rollup/plugin-terser';
 import pkg from './package.json' assert { type: "json" };
+
+import typescript from "rollup-plugin-typescript2";
 import { dts } from "rollup-plugin-dts";
 
 const name = 'seo-analyzer';
@@ -19,24 +21,49 @@ export default [
   {
     external,
     input,
-    output: { file: pkg.module, format: 'es', globals, inlineDynamicImports: true },
-    plugins: [terser()]
+    output: { file: pkg.main, format: 'es', globals, inlineDynamicImports: true },
+    //plugins: [terser()]
+  plugins: [
+    typescript({
+      rollupCommonJSResolveHack: false,
+      clean: true,
+    })
+  ]
   },
   {
     external,
     input,
-    output: { file: pkg.main, format: 'umd', name, sourcemap: true, globals, inlineDynamicImports: true },
-    plugins: [terser()]
+    output: { file: pkg.commonjs, format: 'umd', name, sourcemap: true, globals, inlineDynamicImports: true },
+    //plugins: [terser()]
+  plugins: [
+    typescript({
+      rollupCommonJSResolveHack: false,
+      clean: true,
+    })
+  ]
   },
   {
     external,
     input,
     output: { file: pkg.browser, format: 'umd', name, sourcemap: true, globals, inlineDynamicImports: true },
-    plugins: [terser()]
+    //plugins: [terser()]
+  plugins: [
+    typescript({
+      rollupCommonJSResolveHack: false,
+      clean: true,
+    })
+  ]
   },
   {
-    input: "./src/index.d.ts",
+    input: "./types/index.d.ts",
     output: [{ file: "dist/seo-analyzer.d.ts", format: "es" }],
-    plugins: [dts()],
+    //plugins: [dts()],,
+  plugins: [
+    dts(),
+    typescript({
+      rollupCommonJSResolveHack: false,
+      clean: true,
+    })
+  ]
   },
 ];
