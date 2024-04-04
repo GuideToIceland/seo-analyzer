@@ -18,8 +18,8 @@ declare class NextServer {
      * Get the DOM from urls
      * @param {number} port
      * @param ignoreUrls
-     * @returns {Promise<Promise.Array>}
+     * @returns {Promise<import('./input').ListDom>}
      */
-    inputSSR(port: number, ignoreUrls: any[], sitemap: any): Promise<Promise.Array>;
+    inputSSR(port: number, ignoreUrls: any[], sitemap: any): Promise<import('./input').ListDom>;
 }
 import Input from './input';

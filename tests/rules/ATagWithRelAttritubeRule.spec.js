@@ -1,12 +1,10 @@
 import test from 'ava';
-import ATagWithRelAttributeRule from '../../src/rules/ATagWithRelAttributeRule';
+import ATagWithRelAttributeRule from '../../src/rules/ATagWithRelAttributeRule.js';
 
 const fakeDOM = (links = []) => ({
-  window: {
-    document: {
+
       querySelectorAll: () => links
-    }
-  }
+
 });
 
 test('if a tag without rel attribute, return "There are 2 <a> tag without rel attribute"', async t => {

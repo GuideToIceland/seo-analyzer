@@ -9,12 +9,12 @@ const input = 'src/index.js';
 const external = [
   'fs',
   'path',
-  'jsdom'
+  'node-html-parser'
 ];
 const globals = {
   fs: 'fs',
   path: 'path',
-  jsdom: 'jsdom'
+  "node-html-parser": 'node-html-parser'
 };
 
 export default [

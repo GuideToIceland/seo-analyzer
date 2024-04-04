@@ -1,12 +1,8 @@
 import test from 'ava';
-import canonicalLinkRule from '../../src/rules/CanonicalLinkRule';
+import canonicalLinkRule from '../../src/rules/CanonicalLinkRule.js';
 
 const fakeDOM = (canonical = null) => ({
-  window: {
-    document: {
-      querySelector: () => canonical 
-    }
-  }
+      querySelector: () => canonical
 });
 
 test('if document not exists a canonical link, it should return "This HTML without <link rel="canonical" href="..."> link"', async t => {

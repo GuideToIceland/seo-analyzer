@@ -1,5 +1,5 @@
 import test from 'ava';
-import Index from '../src/index';
+import Index from '../src/index.js';
 
 test('if arg "rule" is type of "function" then rule push to array', t => {
   const index = new Index();

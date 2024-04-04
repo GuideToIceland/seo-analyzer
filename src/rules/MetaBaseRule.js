@@ -3,12 +3,12 @@ function metaBaseRule(dom, options = { list: [] }) {
     const report = [];
     if (options && options.names && options.names.length) {
       options.names.forEach(name => {
-        const element = dom.window.document.querySelector(
+        const element = dom.querySelector(
           `head > meta[name="${name}"]`
         );
         if (!element) {
           report.push(`This HTML is missing a <meta name="${name}"> tag`);
-        } else if (!element.content) {
+        } else if (!element.attributes.content) {
           report.push(
             `The content attribute for the <meta name="${name}" content=""> tag is empty`
           );

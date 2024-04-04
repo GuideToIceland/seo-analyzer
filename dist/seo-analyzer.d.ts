@@ -1,5 +1,5 @@
-import * as jsdom from 'jsdom';
-import { JSDOM } from 'jsdom';
+import * as node_html_parser from 'node-html-parser';
+import { HTMLElement } from 'node-html-parser';
 
 declare function metaSocialRule(dom: any, options?: {
     properties: any[];
@@ -11,11 +11,11 @@ declare function metaBaseRule(dom: any, options?: {
 
 /**
  * Checks the presence and validity of the canonical link in the provided DOM.
- * @param {import('jsdom').JSDOM} dom The JSDOM object representing the HTML document.
+ * @param {import('node-html-parser').HTMLElement} dom The node-html-parser object representing the HTML document.
  * @returns {Promise<string|null>} A promise that resolves with a string indicating an error message if
  * the canonical link is missing or invalid, otherwise resolves with null.
  */
-declare function canonicalLinkRule(dom: jsdom.JSDOM): Promise<string | null>;
+declare function canonicalLinkRule(dom: node_html_parser.HTMLElement): Promise<string | null>;
 
 declare function ATagWithRelAttributeRule(dom: any): Promise<any>;
 
@@ -62,9 +62,9 @@ declare class Scanner {
     _getHtmlDomFromLinks(links: any[]): any[];
 }
 
-type ListDom = Array<JSDOM>;
+type ListDom = Array<HTMLElement>;
 /**
- * @typedef {Array<JSDOM>} ListDom
+ * @typedef {Array<HTMLElement>} ListDom
  */
 declare class Input {
     constructor(logger: any);
@@ -151,9 +151,9 @@ declare class NextServer {
      * Get the DOM from urls
      * @param {number} port
      * @param ignoreUrls
-     * @returns {Promise<Promise.Array>}
+     * @returns {Promise<import('./input').ListDom>}
      */
-    inputSSR(port: number, ignoreUrls: any[], sitemap: any): Promise<Promise.Array>;
+    inputSSR(port: number, ignoreUrls: any[], sitemap: any): Promise<ListDom>;
 }
 
 /**
@@ -175,7 +175,7 @@ declare class Analyzer {
     emptyList: string;
     /**
      * Run analyzer for a list of doms
-     * @param {JSDOM<array>} doms - The html dom list to run the rule on
+     * @param {HTMLElement<array>} doms - The html dom list to run the rule on
      * @param {Array} rules - The rules to run
      * @returns {AnalyzerResult} - Array of error result [{ source, report }, { source, report }, { source, report }]
      */

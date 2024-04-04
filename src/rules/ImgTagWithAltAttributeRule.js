@@ -3,13 +3,13 @@ function imgTagWithAltAttributeRule(dom) {
     let countAlt = 0;
     let countSrc = 0;
     const report = [];
-    const elements = dom.window.document.querySelectorAll('img');
+    const elements = dom.querySelectorAll('img');
 
     elements.forEach(element => {
-      if (!element.alt) {
+      if (!element.attributes.alt) {
         countAlt++;
       }
-      if (!element.src) {
+      if (!element.attributes.src) {
         countSrc++;
       }
     });

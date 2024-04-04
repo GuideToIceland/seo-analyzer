@@ -1,12 +1,9 @@
 import test from 'ava';
-import metaBaseRule from '../../src/rules/MetaBaseRule';
+import metaBaseRule from '../../src/rules/MetaBaseRule.js';
 
 const fakeDOM = content => ({
-  window: {
-    document: {
       querySelector: () => content
-    }
-  }
+
 });
 
 test('if document not exists base meta tags description & viewport, return ["This HTML is missing a <meta name="description"> tag", "This HTML is missing a <meta name="viewport"> tag"]', async t => {

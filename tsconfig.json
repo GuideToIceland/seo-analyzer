@@ -5,9 +5,10 @@
   "compilerOptions": {
       "declaration": true,
       "emitDeclarationOnly": true,
+      "esModuleInterop": true,
+      "lib": ["dom", "dom.iterable", "esnext"],
+      "types": ["node"],
       "allowJs": true,
-      "lib": [
-        "es2017"
-      ]
+      "outDir": "./types"
   }
 }

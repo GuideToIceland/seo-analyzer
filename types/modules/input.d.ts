@@ -1,7 +1,7 @@
 export default Input;
-export type ListDom = Array<JSDOM>;
+export type ListDom = Array<HTMLElement>;
 /**
- * @typedef {Array<JSDOM>} ListDom
+ * @typedef {Array<HTMLElement>} ListDom
  */
 declare class Input {
     constructor(logger: any);
@@ -68,5 +68,5 @@ declare class Input {
      */
     private getDom;
 }
-import { JSDOM } from 'jsdom';
+import { HTMLElement } from 'node-html-parser';
 import Scraper from './scraper';

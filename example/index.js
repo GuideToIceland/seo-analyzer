@@ -1,19 +1,19 @@
-const SeoAnalyzer = require('../dist/seo-analyzer.js');
+import SeoAnalyzer from '../dist/seo-analyzer.js';
 
 // --------- Custom rules ------------ //
 function customRule(dom) {
   return new Promise((resolve, reject) => {
-    const paragraph = dom.window.document.querySelector('p');
+    const paragraph = dom.querySelector('p');
     if (paragraph) {
-      resolve('');
+      resolve(null);
     } else {
-      reject(new Error('No <p> tags found'));
+      resolve('No <p> tags found');
     }
   });
 }
 // -------------------------------- //
 
-new SeoAnalyzer()
+new SeoAnalyzer({})
   // ------- Ignore methods ------- //
   .ignoreFolders(['example/html/contact'])
   .ignoreFiles(['example/html/team.html'])
@@ -57,4 +57,3 @@ new SeoAnalyzer()
     // .outputJsonAsync().then(console.log) // this cannot be chained further
     .outputConsole());
   // .outputConsole();  // if using inputHTMLStrings
-  

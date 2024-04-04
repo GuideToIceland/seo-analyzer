@@ -1,6 +1,6 @@
 import test from 'ava';
 import sinon from 'sinon';
-import Logger from '../../src/modules/logger';
+import Logger from '../../src/modules/logger.js';
 
 const logger = new Logger();
 

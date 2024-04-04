@@ -1,9 +1,9 @@
 function ATagWithRelAttributeRule(dom) {
   return new Promise(resolve => {
     let count = 0;
-    const elements = dom.window.document.querySelectorAll('a');
+    const elements = dom.querySelectorAll('a');
     elements.forEach(element => {
-      if (!element.rel) {
+      if (!element.attributes.rel) {
         count++;
       }
     });

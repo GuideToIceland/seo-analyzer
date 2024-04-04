@@ -52,7 +52,7 @@ class NextServer {
    * Get the DOM from urls
    * @param {number} port
    * @param ignoreUrls
-   * @returns {Promise<Promise.Array>}
+   * @returns {Promise<import('./input').ListDom>}
    */
   async inputSSR(port, ignoreUrls = [], sitemap) {
     this.port = port;

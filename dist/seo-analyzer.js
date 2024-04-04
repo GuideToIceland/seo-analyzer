@@ -4,19 +4,18 @@ import express from 'express';
 import path from 'path';
 import CFonts from 'cfonts';
 import fs from 'fs';
-import { VirtualConsole, JSDOM } from 'jsdom';
+import { parse } from 'node-html-parser';
 import axios from 'axios';
 import sitemaps from 'sitemap-stream-parser';
 
 function titleLengthRule(dom, options) {
   return new Promise(resolve => {
-    const document = dom.window.document;
-    const title = document.querySelector('title');
+    const title = dom.querySelector('title');
     if (!title) {
       resolve('This HTML is missing a <title> tag');
     }
     // If title exists in the DOM
-    const titleLength = title.length;
+    const titleLength = title.textContent.length;
     if (titleLength < options.min) {
       resolve(
         `<title> too short(${titleLength}). The minimum length should be ${options.min} characters.`
@@ -36,13 +35,13 @@ function imgTagWithAltAttributeRule(dom) {
     let countAlt = 0;
     let countSrc = 0;
     const report = [];
-    const elements = dom.window.document.querySelectorAll('img');
+    const elements = dom.querySelectorAll('img');
 
     elements.forEach(element => {
-      if (!element.alt) {
+      if (!element.attributes.alt) {
         countAlt++;
       }
-      if (!element.src) {
+      if (!element.attributes.src) {
         countSrc++;
       }
     });
@@ -66,9 +65,9 @@ function imgTagWithAltAttributeRule(dom) {
 function ATagWithRelAttributeRule(dom) {
   return new Promise(resolve => {
     let count = 0;
-    const elements = dom.window.document.querySelectorAll('a');
+    const elements = dom.querySelectorAll('a');
     elements.forEach(element => {
-      if (!element.rel) {
+      if (!element.attributes.rel) {
         count++;
       }
     });
@@ -81,22 +80,22 @@ function ATagWithRelAttributeRule(dom) {
 
 /**
  * Checks the presence and validity of the canonical link in the provided DOM.
- * @param {import('jsdom').JSDOM} dom The JSDOM object representing the HTML document.
+ * @param {import('node-html-parser').HTMLElement} dom The node-html-parser object representing the HTML document.
  * @returns {Promise<string|null>} A promise that resolves with a string indicating an error message if
  * the canonical link is missing or invalid, otherwise resolves with null.
  */
 function canonicalLinkRule(dom) {
   return new Promise(resolve => {
-    const element = dom.window.document.querySelector(
+    const element = dom.querySelector(
       'head > link[rel="canonical"]'
     );
     if (!element) {
       resolve('This HTML is missing a <link rel="canonical" href="..."> link');
     }
-    if (element && !element.href) {
+    if (element && !element.attributes.href) {
       resolve('The canonical link is missing an href attribute');
     }
-    if (element && element.href.substr(-1) !== '/') {
+    if (element && element.attributes.href.substr(-1) !== '/') {
       resolve(
         'The href attribute does not have a slash at the end of the link.'
       );
@@ -110,12 +109,12 @@ function metaBaseRule(dom, options = { list: [] }) {
     const report = [];
     if (options && options.names && options.names.length) {
       options.names.forEach(name => {
-        const element = dom.window.document.querySelector(
+        const element = dom.querySelector(
           `head > meta[name="${name}"]`
         );
         if (!element) {
           report.push(`This HTML is missing a <meta name="${name}"> tag`);
-        } else if (!element.content) {
+        } else if (!element.attributes.content) {
           report.push(
             `The content attribute for the <meta name="${name}" content=""> tag is empty`
           );
@@ -131,12 +130,12 @@ function metaSocialRule(dom, options = { properties: [] }) {
     const report = [];
     if (options && options.properties && options.properties.length) {
       options.properties.forEach(property => {
-        const element = dom.window.document.querySelector(
+        const element = dom.querySelector(
           `head > meta[property="${property}"]`
         );
         if (!element) {
           report.push(`This HTML is missing a <meta property="${property}"> tag`);
-        } else if (!element.content) {
+        } else if (!element.attributes.content) {
           report.push(
             `The content attribute for the <meta property="${property}" content=""> tag is empty`
           );
@@ -432,7 +431,7 @@ class Scanner {
 }
 
 /**
- * @typedef {Array<JSDOM>} ListDom 
+ * @typedef {Array<HTMLElement>} ListDom
  */
 
 class Input {
@@ -638,10 +637,8 @@ class Input {
     });
     this.logger.info('\n🚀  Getting DOM from HTML\n');
     this.logger.level <= 4 && proccess.start(list.length, 0);
-    // NOTE: https://github.com/jsdom/jsdom/issues/2177#issuecomment-379212964
-    const virtualConsole = new VirtualConsole();
     list.forEach(item => {
-      let dom = new JSDOM(item.text, { virtualConsole });
+      let dom = parse(item.text);
       doms.push({ source: item.source, dom });
       this.logger.level <= 4 && proccess.increment();
     });
@@ -676,7 +673,7 @@ class Analyzer {
 
   /**
    * Run analyzer for a list of doms
-   * @param {JSDOM<array>} doms - The html dom list to run the rule on
+   * @param {HTMLElement<array>} doms - The html dom list to run the rule on
    * @param {Array} rules - The rules to run
    * @returns {AnalyzerResult} - Array of error result [{ source, report }, { source, report }, { source, report }]
    */
@@ -1065,7 +1062,7 @@ class NextServer {
    * Get the DOM from urls
    * @param {number} port
    * @param ignoreUrls
-   * @returns {Promise<Promise.Array>}
+   * @returns {Promise<import('./input').ListDom>}
    */
   async inputSSR(port, ignoreUrls = [], sitemap) {
     this.port = port;

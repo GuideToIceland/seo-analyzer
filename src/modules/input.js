@@ -1,13 +1,13 @@
 import fs from 'fs';
 import path from 'path';
-import { JSDOM, VirtualConsole } from 'jsdom';
+import { parse, HTMLElement } from 'node-html-parser';
 import cliProgress from 'cli-progress';
 import _colors from 'colors';
 import Logger from './logger';
 import Scraper from './scraper';
 
 /**
- * @typedef {Array<JSDOM>} ListDom 
+ * @typedef {Array<HTMLElement>} ListDom
  */
 
 class Input {
@@ -213,10 +213,8 @@ class Input {
     });
     this.logger.info('\n🚀  Getting DOM from HTML\n');
     this.logger.level <= 4 && proccess.start(list.length, 0);
-    // NOTE: https://github.com/jsdom/jsdom/issues/2177#issuecomment-379212964
-    const virtualConsole = new VirtualConsole();
     list.forEach(item => {
-      let dom = new JSDOM(item.text, { virtualConsole });
+      let dom = parse(item.text);
       doms.push({ source: item.source, dom });
       this.logger.level <= 4 && proccess.increment();
     });

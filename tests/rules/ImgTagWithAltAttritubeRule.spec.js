@@ -1,12 +1,10 @@
 import test from 'ava';
-import imgTagWithAltAttributeRule from '../../src/rules/ImgTagWithAltAttributeRule';
+import imgTagWithAltAttributeRule from '../../src/rules/ImgTagWithAltAttributeRule.js';
 
 const fakeDOM = (images = []) => ({
-  window: {
-    document: {
+
       querySelectorAll: () => images
-    }
-  }
+
 });
 
 test('if img tag without alt attribute, return "There are 2 <img> tag without alt attribute"', async t => {

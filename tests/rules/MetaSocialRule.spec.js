@@ -1,12 +1,9 @@
 import test from 'ava';
-import metaSocialRule from '../../src/rules/MetaSocialRule';
+import metaSocialRule from '../../src/rules/MetaSocialRule.js';
 
 const fakeDOM = content => ({
-  window: {
-    document: {
       querySelector: () => content
-    }
-  }
+
 });
 
 test('if document not exists social meta tags, return array with errors', async t => {
