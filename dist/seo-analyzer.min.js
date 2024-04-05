@@ -91,11 +91,6 @@
       if (element && !element.attributes.href) {
         resolve('The canonical link is missing an href attribute');
       }
-      if (element && element.attributes.href.substr(-1) !== '/') {
-        resolve(
-          'The href attribute does not have a slash at the end of the link.'
-        );
-      }
       resolve(null);
     });
   }
@@ -669,7 +664,7 @@
 
     /**
      * Run analyzer for a list of doms
-     * @param {HTMLElement<array>} doms - The html dom list to run the rule on
+     * @param {HTMLElement<array>} inputData - The html dom list to run the rule on
      * @param {Array} rules - The rules to run
      * @returns {AnalyzerResult} - Array of error result [{ source, report }, { source, report }, { source, report }]
      */
